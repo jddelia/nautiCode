@@ -1,28 +1,64 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+import Navbar from './components/Navbar';
+import Home from './components/Home/Home';
+import Explore from './components/Explore/Explore';
+
+const App = () => {
+
+  const [navStyle, setNavStyle] = useState({
+    navBar: {
+      backgroundColor: "#ffffff"
+    },
+    navLogo: {
+      height: 50
+    }
+  })
+
+  useEffect(() => {
+
+    function navScroll() {
+      if (window.scrollY > 190) {
+        setNavStyle({
+          ...navStyle,
+          navBar: {
+            backgroundColor: "#ffffff"
+          },
+          navLogo: {
+            height: 70
+          }
+        });
+      } else {
+        setNavStyle({
+          ...navStyle,
+          navBar: {
+            backgroundColor: "#ffffff"
+          },
+          navLogo: {
+            height: 50
+          }
+        });
+      }
+    }
+
+    window.addEventListener("scroll", navScroll);
+
+    return () => window.removeEventListener("scroll", navScroll);
+
+  }, [navStyle]);
+
+  return (
+    <BrowserRouter>
+      <div className="">
+        <Navbar navStyle={navStyle} />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/explore" component={Explore} />
+        </Switch>
       </div>
-    );
-  }
+    </BrowserRouter>
+  );
 }
 
 export default App;
